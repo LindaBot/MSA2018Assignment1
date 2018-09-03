@@ -30,14 +30,13 @@ export default class App extends React.Component<{}, IState>{
     const file = files[0]
     const reader = new FileReader();
     reader.onload = (readerEvt: any) => {
-        const binaryString = readerEvt.target!!.result;
-        this.upload(btoa(binaryString))
+        this.upload()
     };
 
     reader.readAsBinaryString(file);
   }
 
-  public upload(base64String: string) {
+/*   public upload(base64String: string) {
     fetch('https://danktrigger.azurewebsites.net/api/dank', {
       method: 'POST',
       headers: {
@@ -57,8 +56,31 @@ export default class App extends React.Component<{}, IState>{
       return response
     })
   }
+ */
 
-  
+
+public upload() {
+  fetch('https://api.openweathermap.org/data/2.5/weather?q=auckland,nz&appid=90b7a75261e2258ad5f148f7536d3411', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+    }
+  })
+  .then((response : any) => {
+    if (!response.ok) {
+      this.setState({results: response.statusText})
+    }
+    else {
+      // response.json().then((data:any) => this.setState({results: data[0].class}))
+
+      // response.json().then((data:any) => this.setState({results: JSON.stringify(data)}))
+
+      response.json().then((data:any) => this.setState({results: JSON.stringify(data.weather[0].main)     }))
+      
+    }
+    return response
+  })
+}
 
   
   public render() {
