@@ -29,10 +29,10 @@ export default class App extends React.Component<{}, IState>{
     })
     const file = files[0]
     const reader = new FileReader();
-    reader.onload = (readerEvt: any) => {
+    reader.onload = (readerEvt) => {
         const binaryString = readerEvt.target!!.result;
         this.upload(btoa(binaryString))
-    }
+    };
 
     reader.readAsBinaryString(file);
   }
@@ -52,7 +52,7 @@ export default class App extends React.Component<{}, IState>{
         this.setState({results: response.statusText})
       }
       else {
-        response.json().then((data:any) => this.setState({results: data[0].class}))
+        response.json().then(data => this.setState({results: data[0].class}))
       }
       return response
     })
