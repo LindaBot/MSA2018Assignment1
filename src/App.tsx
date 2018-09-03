@@ -2,6 +2,7 @@ import * as React from 'react';
 import Dropzone from 'react-dropzone'
 import Loader from 'react-loader-spinner'
 import './App.css';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 interface IState {
@@ -21,15 +22,19 @@ export default class App extends React.Component<{}, IState>{
     }
   }
 
-  public render() {
-    return (
-      <div className="container-fluid">
-      <div className="centreText">
-        {/* React components must have a wrapper node/element */}
-        <h1>( ͡° ͜ʖ ͡°)</h1>
-      </div>
-    </div>
-    );
+  public onDrop(files: any) {
+    this.setState({
+      imageFiles: files,
+      results: ""
+    })
+    const file = files[0]
+    const reader = new FileReader();
+    reader.onload = (readerEvt) => {
+        const binaryString = readerEvt.target!!.result;
+        this.upload(btoa(binaryString))
+    };
+
+    reader.readAsBinaryString(file);
   }
 
   public upload(base64String: string) {
@@ -47,26 +52,43 @@ export default class App extends React.Component<{}, IState>{
         this.setState({results: response.statusText})
       }
       else {
-        response.json().then((data:any) => this.setState({results: data[0].class}))
+        response.json().then(data => this.setState({results: data[0].class}))
       }
       return response
     })
   }
 
-  public onDrop(files: any) {
-    this.setState({
-      imageFiles: files,
-      results: ""
-    })
-    const file = files[0]
-    const reader = new FileReader();
-    reader.onload = (readerEvt) => {
-        const binaryString = readerEvt.target!!.result;
-        this.upload(btoa(binaryString))
-    };
+  
 
-    reader.readAsBinaryString(file);
+  
+  public render() {
+    return (
+      <div className="container-fluid">
+        <div className="centreText">
+          {/* React components must have a wrapper node/element */}
+          <div className="dropZone">
+            <Dropzone onDrop={this.state.dropzone} style={{position: "relative"}}>
+              <div style={{height: '50vh'}}>
+                {
+                  this.state.imageFiles.length > 0 ? 
+                    <div>{this.state.imageFiles.map((file) => <img className="image" key={file.name} src={file.preview} /> )}</div> :
+                    <p>Try dropping some files here, or click to select files to upload.</p>
+                }  
+              </div>
+            </Dropzone>
+          </div>
+          <div  className="dank">
+          {
+            this.state.results === "" && this.state.imageFiles.length > 0 ?
+            <Loader type="TailSpin" color="#00BFFF" height={80} width={80}/> :
+            <p>{this.state.results}</p>
+          }
+          </div>
+        </div>
+      </div>
+    );
   }
+
 
   
   
