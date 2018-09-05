@@ -2,6 +2,9 @@ import * as React from 'react';
 // import Dropzone from 'react-dropzone'
 // import Loader from 'react-loader-spinner'
 import './App.css';
+import * as mDesign from '@material-ui/core';
+
+
 
 // import { FormsModule } from '@angular/forms';
 // import CircularProgress from '@material-ui/core/CircularProgress';
@@ -109,14 +112,15 @@ public upload() {
 
   public render() {
     return (
+      <h1>
       <div className="container-fluid">
         <div className="centreText">
           {/* React components must have a wrapper node/element */}
           <div className="dropZone">
             <form action="/action_page.php">
               {/* <input type="text" ref="city" name="input" onChange = {this.handleChange}/> */}
-
-              <input 
+              <section>
+              <mDesign.Input 
                 // onChange={this.handle.bind(this)}
                 defaultValue={this.state.cityName}
                 onChange = {this.updateCityName}
@@ -124,8 +128,8 @@ public upload() {
                 id="topicBox"
                 name="topicBox"
                 placeholder="Enter topic here..."/>
-
-              <button type="button" onClick={this.onClick}>Click Me!</button>
+              </section>
+              <mDesign.Button type="button" onClick={this.onClick}>Click Me!</mDesign.Button>
             </form>
           </div>
           <div  className="dank">
@@ -134,6 +138,7 @@ public upload() {
           </div>
         </div>
       </div>
+      </h1>
     );
   }
 }
