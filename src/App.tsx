@@ -10,7 +10,8 @@ import './App.css';
 interface IState {
   cityName: string,
   results: any,
-  button: any
+  button: any,
+  topicBox: any
 }
 
 export default class App extends React.Component<{}, IState>{
@@ -28,12 +29,23 @@ export default class App extends React.Component<{}, IState>{
     super(props)
     this.state = {
       cityName: "",
-      results: "",
-      button: this.onClick.bind(this)
+      results: "None",
+      button: this.onClick.bind(this),
+      topicBox: this.refs.topicBox
     }
 
     this.onClick = this.onClick.bind(this);
+    this.updateCityName = this.updateCityName.bind(this);
   }
+
+  public updateCityName(event: any){
+    console.log(event.target.value);
+    this.setState({
+      cityName: event.target.value,
+      results: ""
+    })
+  }
+
 
   public onClick() {
     this.setState({
@@ -84,14 +96,23 @@ public upload() {
       
       response.json().then((data:any) => this.setState(
         {
-          results: JSON.stringify(data.weather[0].main)   
-          // results: this.state.cityName  
+          // results: JSON.stringify(data.weather[0].main)   
+          // results: this.refs.input.city.value  
         }))
       
     }
     return response
   })
 }
+
+public handle(event: any){
+  const value = event.target.value
+  this.setState({
+    cityName: value
+  })
+}
+
+
 
   public render() {
     return (
@@ -100,12 +121,23 @@ public upload() {
           {/* React components must have a wrapper node/element */}
           <div className="dropZone">
             <form action="/action_page.php">
-              <input type="text"/>
+              {/* <input type="text" ref="city" name="input" onChange = {this.handleChange}/> */}
+
+              <input 
+                // onChange={this.handle.bind(this)}
+                defaultValue={this.state.cityName}
+                onChange = {this.updateCityName}
+                type="topicBox"
+                id="topicBox"
+                name="topicBox"
+                placeholder="Enter topic here..."/>
+
               <button type="button" onClick={this.onClick}>Click Me!</button>
             </form>
           </div>
           <div  className="dank">
             <p>{this.state.results}</p>
+            <p>{this.state.cityName}</p>
           </div>
         </div>
       </div>

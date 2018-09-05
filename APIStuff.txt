@@ -1,1 +1,3 @@
-https://api.openweathermap.org/data/2.5/weather?q=auckland,nz&appid=90b7a75261e2258ad5f148f7536d3411
+key = 90b7a75261e2258ad5f148f7536d3411
+location = input -> auckland
+https://api.openweathermap.org/data/2.5/weather?q=auckland,nz&appid=
