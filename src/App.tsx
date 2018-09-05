@@ -1,39 +1,46 @@
 import * as React from 'react';
-import Dropzone from 'react-dropzone'
-import Loader from 'react-loader-spinner'
+// import Dropzone from 'react-dropzone'
+// import Loader from 'react-loader-spinner'
 import './App.css';
+
+// import { FormsModule } from '@angular/forms';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 interface IState {
-  imageFiles: any[],
+  cityName: string,
   results: any,
-  dropzone: any
+  button: any
 }
 
 export default class App extends React.Component<{}, IState>{
 
-  constructor(props: any) {
+/*   constructor(props: any) {
     super(props)
     this.state = {
       imageFiles: [],
       results: "",
       dropzone: this.onDrop.bind(this)
     }
+  } */
+
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      cityName: "",
+      results: "",
+      button: this.onClick.bind(this)
+    }
+
+    this.onClick = this.onClick.bind(this);
   }
 
-  public onDrop(files: any) {
+  public onClick() {
     this.setState({
-      imageFiles: files,
+      cityName: "Auckland",
       results: ""
     })
-    const file = files[0]
-    const reader = new FileReader();
-    reader.onload = (readerEvt: any) => {
-        this.upload()
-    };
-
-    reader.readAsBinaryString(file);
+    this.upload()
   }
 
 /*   public upload(base64String: string) {
@@ -74,44 +81,34 @@ public upload() {
       // response.json().then((data:any) => this.setState({results: data[0].class}))
 
       // response.json().then((data:any) => this.setState({results: JSON.stringify(data)}))
-
-      response.json().then((data:any) => this.setState({results: JSON.stringify(data.weather[0].main)     }))
+      
+      response.json().then((data:any) => this.setState(
+        {
+          results: JSON.stringify(data.weather[0].main)   
+          // results: this.state.cityName  
+        }))
       
     }
     return response
   })
 }
 
-  
   public render() {
     return (
       <div className="container-fluid">
         <div className="centreText">
           {/* React components must have a wrapper node/element */}
           <div className="dropZone">
-            <Dropzone onDrop={this.state.dropzone} style={{position: "relative"}}>
-              <div style={{height: '50vh'}}>
-                {
-                  this.state.imageFiles.length > 0 ? 
-                    <div>{this.state.imageFiles.map((file) => <img className="image" key={file.name} src={file.preview} /> )}</div> :
-                    <p>Try dropping some files here, or click to select files to upload.</p>
-                }  
-              </div>
-            </Dropzone>
+            <form action="/action_page.php">
+              <input type="text"/>
+              <button type="button" onClick={this.onClick}>Click Me!</button>
+            </form>
           </div>
           <div  className="dank">
-          {
-            this.state.results === "" && this.state.imageFiles.length > 0 ?
-            <Loader type="TailSpin" color="#00BFFF" height={80} width={80}/> :
             <p>{this.state.results}</p>
-          }
           </div>
         </div>
       </div>
     );
   }
-
-
-  
-  
 }
