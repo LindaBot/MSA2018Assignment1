@@ -79,7 +79,8 @@ export default class App extends React.Component<{}, IState>{
 
 
 public upload() {
-  fetch('https://api.openweathermap.org/data/2.5/weather?q=auckland,nz&appid=90b7a75261e2258ad5f148f7536d3411', {
+  const link = "https://api.openweathermap.org/data/2.5/weather?q="+this.state.cityName+"&appid=90b7a75261e2258ad5f148f7536d3411"
+  fetch(link, {
     method: 'POST',
     headers: {
       'Content-Type': 'text/plain',
@@ -96,7 +97,7 @@ public upload() {
       
       response.json().then((data:any) => this.setState(
         {
-          // results: JSON.stringify(data.weather[0].main)   
+           results: JSON.stringify(data.weather[0].main)   
           // results: this.refs.input.city.value  
         }))
       
@@ -104,14 +105,6 @@ public upload() {
     return response
   })
 }
-
-public handle(event: any){
-  const value = event.target.value
-  this.setState({
-    cityName: value
-  })
-}
-
 
 
   public render() {
