@@ -3,12 +3,16 @@ import * as React from 'react';
 // import Loader from 'react-loader-spinner'
 import './App.css';
 import * as mDesign from '@material-ui/core';
+import * as mDesignIcons from '@material-ui/icons';
+import WeatherIcon from 'react-icons-weather';
+
 
 
 interface IState {
   cityName: string,
   results: any,
   button: any
+  response: boolean
 }
 
 export default class App extends React.Component<{}, IState>{
@@ -19,6 +23,7 @@ export default class App extends React.Component<{}, IState>{
       cityName: "",
       results: "None",
       button: this.onClick.bind(this),
+      response: false
     }
 
     this.onClick = this.onClick.bind(this);
@@ -59,7 +64,10 @@ public upload() {
 }
 
 public changeWeather(weatherJSON: any){
-   console.log(weatherJSON.main.humidity)
+  this.setState({
+    response : true
+  })
+  console.log(weatherJSON.main)
 }
 
 
@@ -91,6 +99,47 @@ public changeWeather(weatherJSON: any){
             <p>{this.state.cityName}</p>
           </div>
         </div>
+        <div>
+          { 
+            this.state.response === true ?
+
+          <div>
+          <mDesign.List>
+
+            <mDesign.ListItem>
+              <mDesign.Avatar>
+              <i className="wi wi-humidity"/>   
+              </mDesign.Avatar>
+              <mDesign.ListItemText primary="Humidity" secondary={this.state.cityName}/>
+            </mDesign.ListItem>
+
+            <mDesign.ListItem>
+              <mDesign.Avatar>
+                
+              <WeatherIcon name="owm" iconId="200" flip="horizontal" rotate="90" />
+              </mDesign.Avatar>
+              <mDesign.ListItemText primary="Photos" secondary="Jan 9, 2014" />
+            </mDesign.ListItem>
+
+            <mDesign.ListItem>
+              <mDesign.Avatar>
+                <mDesignIcons.ZoomIn />
+              </mDesign.Avatar>
+              <mDesign.ListItemText primary="Photos" secondary="Jan 9, 2014" />
+            </mDesign.ListItem>
+
+          </mDesign.List>
+
+          </div>
+          
+          :
+
+
+          <div>
+            <p>THere is something</p>
+          </div>
+          }
+      </div>
       </div>
       </h1>
     );
