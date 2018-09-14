@@ -2,17 +2,6 @@
     text-align: center;
 }
 
-h1 {
-    font-size: 150px;
-}
-
-.centreText {
-    text-align: center;
-  }
-  
-h1 {
-    font-size: 150px;
-}
 
 .width100{
     width: 100%;
@@ -26,10 +15,24 @@ h1 {
     text-align: center;
 }
 
-.dropZone {
-    height: 50vh;
-    border-style: dashed;
+div.dropzone {
+    min-height: 80vh;
+    text-align: center;
+    align-content: center;
+    width: 50%; 
+    margin: 0 auto;
+    padding:  18% 0;
+
 }
+
+#input{
+    width: 40vw;
+}
+
+.inputField{
+}
+
+
 
 .image {
     max-width: 100%;
@@ -38,14 +41,14 @@ h1 {
     padding-bottom: 9px;
 }
 
-.inputField{
-    size:200px;
-    font-size:200px;
-}
+
 
 .button{
-    height: 200px;
-    width: 400px;
+    margin-top: 5;
+}
+
+.inputField{
+    margin: 5%;
 }
 
 container-fluid{
@@ -54,6 +57,6 @@ container-fluid{
     min-height: 500px;
 }
 
-.width80{
+.height200{
     min-height: 200px;
 }
