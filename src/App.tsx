@@ -12,10 +12,12 @@ interface IState {
   cityName: string,
   results: any,
   button: any,
-  response: any
+  response: any,
+  open: any
 }
 
 export default class App extends React.Component<{}, IState>{
+
 
   constructor(props: any) {
     super(props)
@@ -23,11 +25,14 @@ export default class App extends React.Component<{}, IState>{
       cityName: "",
       results: "None",
       button: this.onClick.bind(this),
-      response: JSON
+      response: JSON,
+      open: false
     }
 
     this.onClick = this.onClick.bind(this);
     this.updateCityName = this.updateCityName.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   public updateCityName(event: any){
@@ -58,6 +63,7 @@ public upload() {
     }
     else {
       response.json().then((data:any) => this.changeWeather(data))
+      this.handleClickOpen()
     }
     return response
   })
@@ -72,46 +78,32 @@ public changeWeather(weatherJSON: any){
   console.log(weatherJSON.weather[0].icon)
 }
 
+public handleClickOpen(){
+  this.setState({ open: true });
+}
+
+public handleClose(){
+  this.setState({ open: false });
+}
 
   public render() {
     return (
-      <div className="container-fluid">
-        <div className="width80">
-          {/* React components must have a wrapper node/element */}
-{/*             <section>
-            <mDesign.Input 
-              defaultValue={this.state.cityName}
-              onChange = {this.updateCityName}
-              placeholder="Enter topic here..."/>
-            </section> */}
-            
-
-{/*             <div>
-              <mDesign.FormControl aria-describedby="name-helper-text" className="inputField"> 
-                <mDesign.InputLabel htmlFor="name-helper" onChange = {this.updateCityName} defaultValue="brazil">Name</mDesign.InputLabel>
-                <mDesign.Input id="name-helper"/>
-                
-                <mDesign.FormHelperText id="name-helper-text"><mDesign.TextField onChange = {this.updateCityName}>Enter your city here</mDesign.TextField>
-                </mDesign.FormHelperText>
-                <mDesign.Button type="submit" className="button" onClick={this.onClick}><h4>Click Me!</h4></mDesign.Button>
-              </mDesign.FormControl>
-            </div> */}
-
-            <mDesign.FormControl aria-describedby="name-helper-text" id = "center">
-          <mDesign.InputLabel htmlFor="name-helper">Name</mDesign.InputLabel>
-          <mDesign.Input id="name-helper"/>
-          <mDesign.FormHelperText id="name-helper-text">Some important helper text</mDesign.FormHelperText>
-        </mDesign.FormControl>
-
+      <div>
+        <mDesign.Button onClick={this.handleClickOpen}>Open alert dialog</mDesign.Button>
+        
         <mDesign.FormHelperText id="name-helper-text"><mDesign.TextField onChange = {this.updateCityName}>Enter your city here</mDesign.TextField>
                 </mDesign.FormHelperText>
                 <mDesign.Button type="submit" className="button" onClick={this.onClick}><h4>Click Me!</h4></mDesign.Button>
-          <div className="result">
-            {/* <p>{this.state.results}</p> */}
-            {/* <p>{this.state.cityName}</p> */}
-          </div>
-        </div>
-        <div>
+        
+        <mDesign.Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <mDesign.DialogTitle id="alert-dialog-title">{"Weather in " + JSON.stringify(this.state.response.name)}</mDesign.DialogTitle>
+          <mDesign.DialogContent>
+          <div>
           { 
             this.state.response === JSON ?
 
@@ -151,6 +143,13 @@ public changeWeather(weatherJSON: any){
           </div>
           }
       </div>
+          </mDesign.DialogContent>
+          <mDesign.DialogActions>
+            <mDesign.Button onClick={this.handleClose} color="primary">
+              Close
+            </mDesign.Button>
+          </mDesign.DialogActions>
+        </mDesign.Dialog>
       </div>
       
     );
