@@ -5,28 +5,13 @@ import './App.css';
 import * as mDesign from '@material-ui/core';
 
 
-
-// import { FormsModule } from '@angular/forms';
-// import CircularProgress from '@material-ui/core/CircularProgress';
-
-
 interface IState {
   cityName: string,
   results: any,
-  button: any,
-  topicBox: any
+  button: any
 }
 
 export default class App extends React.Component<{}, IState>{
-
-/*   constructor(props: any) {
-    super(props)
-    this.state = {
-      imageFiles: [],
-      results: "",
-      dropzone: this.onDrop.bind(this)
-    }
-  } */
 
   constructor(props: any) {
     super(props)
@@ -34,7 +19,6 @@ export default class App extends React.Component<{}, IState>{
       cityName: "",
       results: "None",
       button: this.onClick.bind(this),
-      topicBox: this.refs.topicBox
     }
 
     this.onClick = this.onClick.bind(this);
@@ -51,34 +35,8 @@ export default class App extends React.Component<{}, IState>{
 
 
   public onClick() {
-    this.setState({
-      cityName: "Auckland",
-      results: ""
-    })
     this.upload()
   }
-
-/*   public upload(base64String: string) {
-    fetch('https://danktrigger.azurewebsites.net/api/dank', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-      body: JSON.stringify({
-        file: base64String,
-      })
-    })
-    .then((response : any) => {
-      if (!response.ok) {
-        this.setState({results: response.statusText})
-      }
-      else {
-        response.json().then((data:any) => this.setState({results: data[0].class}))
-      }
-      return response
-    })
-  }
- */
 
 
 public upload() {
@@ -94,19 +52,14 @@ public upload() {
       this.setState({results: response.statusText})
     }
     else {
-      // response.json().then((data:any) => this.setState({results: data[0].class}))
-
-      // response.json().then((data:any) => this.setState({results: JSON.stringify(data)}))
-      
-      response.json().then((data:any) => this.setState(
-        {
-           results: JSON.stringify(data.weather[0].main)   
-          // results: this.refs.input.city.value  
-        }))
-      
+      response.json().then((data:any) => this.changeWeather(data))
     }
     return response
   })
+}
+
+public changeWeather(weatherJSON: any){
+   console.log(weatherJSON.main.humidity)
 }
 
 
@@ -116,23 +69,24 @@ public upload() {
       <div className="container-fluid">
         <div className="centreText">
           {/* React components must have a wrapper node/element */}
-          <div className="dropZone">
-            <form action="/action_page.php">
-              {/* <input type="text" ref="city" name="input" onChange = {this.handleChange}/> */}
-              <section>
-              <mDesign.Input 
-                // onChange={this.handle.bind(this)}
-                defaultValue={this.state.cityName}
-                onChange = {this.updateCityName}
-                type="topicBox"
-                id="topicBox"
-                name="topicBox"
-                placeholder="Enter topic here..."/>
-              </section>
-              <mDesign.Button type="button" onClick={this.onClick}>Click Me!</mDesign.Button>
-            </form>
-          </div>
-          <div  className="dank">
+{/*             <section>
+            <mDesign.Input 
+              defaultValue={this.state.cityName}
+              onChange = {this.updateCityName}
+              placeholder="Enter topic here..."/>
+            </section> */}
+            
+
+            <div>
+              <mDesign.FormControl aria-describedby="name-helper-text" className="inputField"> 
+                <mDesign.InputLabel htmlFor="name-helper" onChange = {this.updateCityName}>Name</mDesign.InputLabel>
+                <mDesign.Input id="name-helper"/>
+                <mDesign.FormHelperText id="name-helper-text"><mDesign.TextField onChange = {this.updateCityName}>Enter your city here</mDesign.TextField>
+                </mDesign.FormHelperText>
+                <mDesign.Button type="submit" className="button" onClick={this.onClick}><h4>Click Me!</h4></mDesign.Button>
+              </mDesign.FormControl>
+            </div>
+          <div className="result">
             <p>{this.state.results}</p>
             <p>{this.state.cityName}</p>
           </div>
