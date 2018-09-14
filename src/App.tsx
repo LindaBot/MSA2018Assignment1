@@ -75,9 +75,8 @@ public changeWeather(weatherJSON: any){
 
   public render() {
     return (
-      <h1>
       <div className="container-fluid">
-        <div className="centreText">
+        <div className="width80">
           {/* React components must have a wrapper node/element */}
 {/*             <section>
             <mDesign.Input 
@@ -87,18 +86,29 @@ public changeWeather(weatherJSON: any){
             </section> */}
             
 
-            <div>
+{/*             <div>
               <mDesign.FormControl aria-describedby="name-helper-text" className="inputField"> 
                 <mDesign.InputLabel htmlFor="name-helper" onChange = {this.updateCityName} defaultValue="brazil">Name</mDesign.InputLabel>
                 <mDesign.Input id="name-helper"/>
+                
                 <mDesign.FormHelperText id="name-helper-text"><mDesign.TextField onChange = {this.updateCityName}>Enter your city here</mDesign.TextField>
                 </mDesign.FormHelperText>
                 <mDesign.Button type="submit" className="button" onClick={this.onClick}><h4>Click Me!</h4></mDesign.Button>
               </mDesign.FormControl>
-            </div>
+            </div> */}
+
+            <mDesign.FormControl aria-describedby="name-helper-text" id = "center">
+          <mDesign.InputLabel htmlFor="name-helper">Name</mDesign.InputLabel>
+          <mDesign.Input id="name-helper"/>
+          <mDesign.FormHelperText id="name-helper-text">Some important helper text</mDesign.FormHelperText>
+        </mDesign.FormControl>
+
+        <mDesign.FormHelperText id="name-helper-text"><mDesign.TextField onChange = {this.updateCityName}>Enter your city here</mDesign.TextField>
+                </mDesign.FormHelperText>
+                <mDesign.Button type="submit" className="button" onClick={this.onClick}><h4>Click Me!</h4></mDesign.Button>
           <div className="result">
-            <p>{this.state.results}</p>
-            <p>{this.state.cityName}</p>
+            {/* <p>{this.state.results}</p> */}
+            {/* <p>{this.state.cityName}</p> */}
           </div>
         </div>
         <div>
@@ -106,13 +116,13 @@ public changeWeather(weatherJSON: any){
             this.state.response === JSON ?
 
           
-            <div>
-            <p>THere is something</p>
-          </div>
+            <div/>
+/*               <p>THere is something</p>
+            </div> */
           
           :
 
-          <div>
+          <div className = "width80">
           <mDesign.List>
 
             <mDesign.ListItem>
@@ -142,7 +152,7 @@ public changeWeather(weatherJSON: any){
           }
       </div>
       </div>
-      </h1>
+      
     );
   }
 }
